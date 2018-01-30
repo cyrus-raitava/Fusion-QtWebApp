@@ -23,13 +23,15 @@ SOURCES += src/main.cpp \
     src/requestmapper.cpp \
     src/testcontroller.cpp \
     src/htmltestcontroller.cpp \
-    src/templatecontrollerexample.cpp
+    src/templatecontrollerexample.cpp \
+    src/musicappcontroller.cpp
 
 HEADERS += \
     src/requestmapper.h \
     src/testcontroller.h \
     src/htmltestcontroller.h \
-    src/templatecontrollerexample.h
+    src/templatecontrollerexample.h \
+    src/musicappcontroller.h
 
 
 OTHER_FILES += etc/webapp1.ini
