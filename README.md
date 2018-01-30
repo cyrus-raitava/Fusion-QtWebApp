@@ -15,6 +15,8 @@ The project is written primarily in C++ within the Qt Framework, alongside HTML 
 
 The QtWebApp library has been used within this project, developed by [Stefan Frings](http://stefanfrings.de/qtwebapp/index-en.html), in accordance with the LGPL license attached.
 
+A tutorial for his QtWebApp library can be found [here](http://stefanfrings.de/qtwebapp/tutorial/index.html).
+
 For questions/queries regarding the project, you can email me at:
 
 _**cyrus.raitava@gmail.com**_
