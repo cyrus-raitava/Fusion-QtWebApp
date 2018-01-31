@@ -30,6 +30,9 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response) {
     else if (path=="/templateExample") {
         TemplateControllerExample.service(request, response);
     }
+    else if (path=="/jsonData") {
+        fusionController.returnJson(request, response);
+    }
     else {
         response.setStatus(404,"Not found");
         response.write("The URL is wrong, no such document.",true);

@@ -11,6 +11,7 @@ class FusionController : public HttpRequestHandler
 public:
     FusionController(QObject* parent=0);
     void service(HttpRequest &request, HttpResponse &response);
+    void returnJson(HttpRequest &request, HttpResponse &response);
 };
 
 #endif // FUSIONCONTROLLER_H

@@ -8,6 +8,7 @@ function fillHTML() {
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
 
+      console.log(this.responseText);
 
       // Create variable for converting incoming response for JSON data, to usable JSON object
 
@@ -40,6 +41,6 @@ function fillHTML() {
 
     }
   };
-  xhttp.open("GET", "/files/name.json", true);
+  xhttp.open("GET", "/jsonData", true);
   xhttp.send();
 }
