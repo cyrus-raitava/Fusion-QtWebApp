@@ -5,6 +5,7 @@
 #include "staticfilecontroller.h"
 #include "templatecache.h"
 #include "templatecontrollerexample.h"
+#include "fusioncontroller.h"
 
 using namespace stefanfrings;
 
@@ -18,6 +19,7 @@ public:
 
 private:
     templateControllerExample TemplateControllerExample;
+    FusionController fusionController;
 };
 
 #endif // REQUESTMAPPER_H

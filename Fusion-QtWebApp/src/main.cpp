@@ -9,6 +9,7 @@
 
 #include "testcontroller.h"
 #include "htmltestcontroller.h"
+#include "fusioncontroller.h"
 
 using namespace stefanfrings;
 

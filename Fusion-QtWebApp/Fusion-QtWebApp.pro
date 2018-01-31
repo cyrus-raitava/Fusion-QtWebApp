@@ -24,17 +24,22 @@ SOURCES += src/main.cpp \
     src/testcontroller.cpp \
     src/htmltestcontroller.cpp \
     src/templatecontrollerexample.cpp \
-    src/musicappcontroller.cpp
+    src/musicappcontroller.cpp \
+    src/fusioncontroller.cpp
 
 HEADERS += \
     src/requestmapper.h \
     src/testcontroller.h \
     src/htmltestcontroller.h \
     src/templatecontrollerexample.h \
-    src/musicappcontroller.h
+    src/musicappcontroller.h \
+    src/fusioncontroller.h
 
 
-OTHER_FILES += etc/webapp1.ini
+OTHER_FILES += etc/webapp1.ini \
+               docroot/files/music_app.html \
+               docroot/files/music_app.js \
+               docroot/files/staticTest.html
 
 include(QtWebApp/httpserver/httpserver.pri)
 include(QtWebApp/templateengine/templateengine.pri)

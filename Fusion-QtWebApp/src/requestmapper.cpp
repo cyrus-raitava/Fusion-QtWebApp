@@ -18,6 +18,9 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response) {
     if (path=="/" || path=="/test") {
         testcontroller().service(request, response);
     }
+    else if (path=="/fusion") {
+        fusionController.service(request, response);
+    }
     else if (path=="/htmlTest") {
         htmlTestController().service(request, response);
     }
