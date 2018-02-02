@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<link type='text/css'  rel='stylesheet' href='fusion.css'/>
+<script type='text/javascript' src='fusion.js'></script>
+
+</head>
+
+<body>
+
+
+
+<div>
+  <button class='dName centerElements' type='button' id='moreInfoButton'>More Information</button>
+
+  <h1 class='dName centerElements' id='deviceName'>Device Name:<h1>
+
+  <input class='dName centerElements' type='text' id='setDeviceName'>
+  <h2 class='dName centerElements' id='name'>Cyrus<h2>
+  <button class='centerElements' type='button' id='changeButton' onclick="changeName()">CHANGE</button>
+
+  <button class='centerElements' type='button' id='playPauseButton' onclick="playPause()">Play</button>
+
+  <select class='comboBox centerElements' id='choiceBox'>
+    <option value='AM'>AM</option>
+    <option value='FM'>FM</option>
+    <option value='AUX'>AUX</option>
+    <option value='Bluetooth'>Bluetooth</option>
+  </select>
+
+  <h2 class='dName centerElements' id='sourceTitle'>Source Type:<h2>
+
+  <!-- Rounded switch -->
+  <label class='switch centerElements' id='powerSwitch' >
+    <input type="checkbox" id="switch" onclick="powerState();"/>
+    <span class='slider round'></span>
+  </label>
+
+  <h3 class='centerElements' id='onLabel'>OFF</h3>
+
+  <h3 class='dName centerElements' id='foot1'>Powered by </h3><h2 class='dName centerElements' id='foot2' style='color: #03c46a'>Fusion Entertainment</h2>
+
+</div>
+
+
+
+</body>
+
+</html>
