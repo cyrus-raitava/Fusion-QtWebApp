@@ -20,9 +20,10 @@
 
   <input class='dName centerElements' type='text' id='setDeviceName'>
   <h2 class='dName centerElements' id='name'>Cyrus<h2>
-  <button class='centerElements' type='button' id='changeButton' onclick="changeName()">CHANGE</button>
+  <button class='centerElements' type='button' id='changeButton' onclick='changeName()'>CHANGE</button>
+  <p class='centerElements' id='warningLabel'>Warning! Name cannot be longer than 10 characters.<p>
 
-  <button class='centerElements' type='button' id='playPauseButton' onclick="playPause()">Play</button>
+  <button class='centerElements' type='button' id='playPauseButton' onclick='playPause()'>Play</button>
 
   <select class='comboBox centerElements' id='choiceBox'>
     <option value='AM'>AM</option>
@@ -35,7 +36,7 @@
 
   <!-- Rounded switch -->
   <label class='switch centerElements' id='powerSwitch' >
-    <input type="checkbox" id="switch" onclick="powerState();"/>
+    <input type='checkbox' id='switch' onclick='powerState();'/>
     <span class='slider round'></span>
   </label>
 

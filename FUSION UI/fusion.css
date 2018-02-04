@@ -4,8 +4,6 @@ body
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-
-
 button, .comboBox
 {
     background-color: #03c46a; /* Green */
@@ -71,16 +69,29 @@ button, .comboBox
 
 #changeButton
 {
-  top: 20%;
+  top: 22%;
   color: #ffffff;
   text-align: center;
   width: 120px;
   height: 35px;
 }
 
+#warningLabel
+{
+  top: 27%;
+  color: #ad3c2e;
+
+  text-align: center;
+  width: 200px;
+  height: 30px;
+  font-size: 0.5em;
+
+  visibility: hidden;
+}
+
 #playPauseButton
 {
-  top: 30%;
+  top: 35%;
   color: #ffffff;
   text-align: center;
   width:  150px;
