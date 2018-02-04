@@ -25,7 +25,8 @@ SOURCES += src/main.cpp \
     src/htmltestcontroller.cpp \
     src/templatecontrollerexample.cpp \
     src/musicappcontroller.cpp \
-    src/fusioncontroller.cpp
+    src/fusioncontroller.cpp \
+    src/fusionmusiccontroller.cpp
 
 HEADERS += \
     src/requestmapper.h \
@@ -33,7 +34,8 @@ HEADERS += \
     src/htmltestcontroller.h \
     src/templatecontrollerexample.h \
     src/musicappcontroller.h \
-    src/fusioncontroller.h
+    src/fusioncontroller.h \
+    src/fusionmusiccontroller.h
 
 
 OTHER_FILES += etc/webapp1.ini \

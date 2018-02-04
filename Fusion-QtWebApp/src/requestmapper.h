@@ -6,6 +6,7 @@
 #include "templatecache.h"
 #include "templatecontrollerexample.h"
 #include "fusioncontroller.h"
+#include "fusionmusiccontroller.h"
 
 using namespace stefanfrings;
 
@@ -20,6 +21,7 @@ public:
 private:
     templateControllerExample TemplateControllerExample;
     FusionController fusionController;
+    FusionMusicController fusionMusicController;
 };
 
 #endif // REQUESTMAPPER_H

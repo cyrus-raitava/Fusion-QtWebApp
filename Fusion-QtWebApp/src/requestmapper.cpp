@@ -36,6 +36,15 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response) {
     else if (path=="/jsonData") {
         fusionController.returnJson(request, response);
     }
+    else if (path.startsWith("/fusionMusic")) {
+        if (path=="/fusionMusic/fusion.css") {
+            fusionMusicController.returnCSS(request, response);
+        } else if (path=="/fusionMusic/fusion.js") {
+            fusionMusicController.returnJs(request, response);
+        } else {
+            fusionMusicController.service(request, response);
+        }
+    }
     else {
         response.setStatus(404,"Not found");
         response.write("The URL is wrong, no such document.",true);
