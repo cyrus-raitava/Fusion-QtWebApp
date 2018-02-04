@@ -30,6 +30,9 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response) {
     else if (path=="/templateExample") {
         TemplateControllerExample.service(request, response);
     }
+    else if(path=="/returnJs") {
+        fusionController.returnJs(request, response);
+    }
     else if (path=="/jsonData") {
         fusionController.returnJson(request, response);
     }

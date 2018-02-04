@@ -3,7 +3,7 @@ function fillHTML() {
 
   var xhttp = new XMLHttpRequest();
 
-  xhttp.overrideMimeType("application/json");
+  xhttp.overrideMimeType('application/json');
 
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
@@ -18,14 +18,14 @@ function fillHTML() {
 
       for (var p in obj) {
 
-        var keyName = "";
-        var keyPair = "";
+        var keyName = '';
+        var keyPair = '';
 
         // Filter out keys that aren't relevant for usage
 
         if (obj.hasOwnProperty(p)) {
-          var keyName = "" + p;
-          var keyPair = "" + obj[p];
+          var keyName = '' + p;
+          var keyPair = '' + obj[p];
         }
 
         // Ensure that if requested element isn't present in HTML, program continues running
@@ -36,11 +36,11 @@ function fillHTML() {
       }
 
       // Line for testing
-      //document.getElementById("header_thing").innerHTML = obj.name;
+      //document.getElementById('header_thing').innerHTML = obj.name;
 
 
     }
   };
-  xhttp.open("GET", "/jsonData", true);
+  xhttp.open('GET', '/jsonData', true);
   xhttp.send();
 }
