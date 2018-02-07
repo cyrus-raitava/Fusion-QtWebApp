@@ -41,6 +41,28 @@ http://localhost:8080/templateExample	-This tests that the webserver can actuall
 
 NOTE: if for any reason the project fails to build properly, perhaps try **copying the /etc folder** (found within the repository), and pasting it _within_ the build folder, generated after your first attempt at running the project. Re-build the project, and run again.
 
+## For further development of the project
 
+Accessing the URL http://localhost:8080/fusionMusic will take you to the final form of the project: that is, the HTML webpage that is generated entirely from within the webserver, with all resources (e.g JS, CSS) being held and returned internally.
+
+It is not sensible to carry out development of the webpage and it's subsequent resources from within C++ code, within Qt Creator. Thus, for me, the only logical iterative process has been to carry out development of HTML5/JS/CSS through the creation of external files, coded from within a better suited IDE (in this case Atom). This development could then be tested and refined through the ability of the QtWebApp httpserver to serve up static webpages.
+
+To test and view this development, edit/create files within the /docroot/files/ folder, and make pathnames for included resources relative to that position. When you are wanting to view the webpage, build and run the webserver from within Qt Creator, then access the webpage via the following URL:
+
+http://localhost:8080/files/<put path name relative to files folder here>
+
+Once development of the webpage is to an accepted standard, moving of the HTML/JS/CSS to within the webserver is trivial:
+
+1. Ensure no double quotation marks (") or comments of the form /**/ or // exist in HTML/JS/CSS resources, when copying over into within webserver. If double-quotation marks do exit, simply replace them with single quotation marks (').
+
+2. Change relative pathnames to fit request mapping of webserver: at the top of the HTML webpage, in your src='' statement, put in the URL corresponding to the method you plan to put the CSS/JS code (e.g '/fusionMusic/fusion.js' would become the new pathname in my html, if I were to put my javascript code within a method that were called when /fusionMusic/fusion.js was requested).
+
+3. Ensure you are pasting the relevant JS/CSS files within the right returning methods. E.g for the Fusion Music Application, paste the css code within the returnCSS() method of the FusionMusicController cpp file (and the same with the JS method). 
+
+Once again, for questions/queries regarding the project, you can email me at:
+
+_**cyrus.raitava@gmail.com**_
+
+In bocca al lupo!
 
 

@@ -87,9 +87,6 @@ function playPause()
   }
 
 
-
-  console.log(songState);
-
   // SEND FORM DATA TO WEBSERVER WITHOUT REFRESHING PAGE
 
   var formData = new FormData();
@@ -118,4 +115,28 @@ function powerState()
 
       console.log("SWITCH IS NOW OFF");
   }
+}
+
+function sourceChange()
+{
+
+  var sourceType = document.getElementById('choiceBox').value;
+
+  console.log(sourceType);
+
+
+  // SEND FORM DATA TO WEBSERVER WITHOUT REFRESHING PAGE
+
+  var formData = new FormData();
+
+  formData.append('sourceType', sourceType);
+
+  var request = new XMLHttpRequest();
+
+  request.open('POST', '/fusionMusic');
+
+  request.send(formData);
+
+
+
 }

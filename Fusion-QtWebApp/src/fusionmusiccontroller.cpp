@@ -44,6 +44,17 @@ void FusionMusicController::service(HttpRequest &request, HttpResponse &response
 
 
 
+    QByteArray sourceType = request.getParameter("sourceType");
+
+    int sourceTypeLength = sourceType.size();
+
+    if (sourceTypeLength == 0)
+    {
+
+    } else {
+        qDebug() << "The current chosen source is: ";
+        qDebug() << sourceType << endl;
+    }
 
 
 
