@@ -33,11 +33,11 @@ Following this, clone/download the repository, and load the .pro file in Qt Crea
 
 Open up a standard browser now (e.g Google Chrome/Mozilla Firefox), and type in the address bar any of the following, to test different aspects of the webserver are working:
 
-http://localhost:8080/	-This tests that the webserver is actually working, and can serve things to a client.
+`http://localhost:8080/` -This tests that the webserver is actually working, and can serve things to a client.
 
-http://localhost:8080/htmlTest	-This tests that the webserver can send html files, to be rendered by the client.
+`http://localhost:8080/htmlTest` -This tests that the webserver can send html files, to be rendered by the client.
 
-http://localhost:8080/templateExample	-This tests that the webserver can actually generate and send an html template to the client (you can edit the server code to fill in placeholders within the template, creating 'dynamic' html webpages, determined at run-time).
+`http://localhost:8080/templateExample` -This tests that the webserver can actually generate and send an html template to the client (you can edit the server code to fill in placeholders within the template, creating 'dynamic' html webpages, determined at run-time).
 
 NOTE: if for any reason the project fails to build properly, perhaps try **copying the /etc folder** (found within the repository), and pasting it _within_ the build folder, generated after your first attempt at running the project. Re-build the project, and run again.
 
@@ -49,7 +49,7 @@ It is not sensible to carry out development of the webpage and it's subsequent r
 
 To test and view this development, edit/create files within the /docroot/files/ folder, and make pathnames for included resources relative to that position. When you are wanting to view the webpage, build and run the webserver from within Qt Creator, then access the webpage via the following URL:
 
-http://localhost:8080/files/<\put path name relative to files folder here>
+`http://localhost:8080/files/<put path name relative to files folder here>`
 
 Once development of the webpage is to an accepted standard, moving of the HTML/JS/CSS to within the webserver is trivial:
 
