@@ -367,6 +367,11 @@ QByteArray HttpRequest::getParameter(const QByteArray& name) const
     return parameters.value(name);
 }
 
+bool HttpRequest::hasParameter(const QByteArray& name, const QByteArray& value) const
+{
+    return parameters.contains(name, value) ? true : false;
+}
+
 QList<QByteArray> HttpRequest::getParameters(const QByteArray& name) const
 {
     return parameters.values(name);

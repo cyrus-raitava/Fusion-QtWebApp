@@ -110,6 +110,14 @@ public:
     QByteArray getParameter(const QByteArray& name) const;
 
     /**
+     * Checks if the request contains the specified parameter/value pair
+     * @param name Name of the parameter, case-sensitive.
+     * @param value Corresponding value of the parameter specified in name
+     * @return
+     */
+    bool hasParameter(const QByteArray& name, const QByteArray& value) const;
+
+    /**
       Get the values of a HTTP request parameter.
       @param name Name of the parameter, case-sensitive.
     */

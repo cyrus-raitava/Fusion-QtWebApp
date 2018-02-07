@@ -12,6 +12,7 @@ FusionMusicController::FusionMusicController (QObject* parent) : HttpRequestHand
 void FusionMusicController::service(HttpRequest &request, HttpResponse &response)
 {
 
+
     QByteArray deviceName = request.getParameter("deviceName");
 
     int deviceNameLength = deviceName.size();
@@ -72,7 +73,11 @@ void FusionMusicController::service(HttpRequest &request, HttpResponse &response
 
 
 
+    bool powVal = request.hasParameter("powerState", request.getParameter("powerState"));
 
+
+
+    qDebug() << "THE REQUEST CONTAINS THE POWERSTATE PARAM: " << powVal << endl;
 
 
 
