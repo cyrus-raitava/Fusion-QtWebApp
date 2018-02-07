@@ -49,11 +49,11 @@ It is not sensible to carry out development of the webpage and it's subsequent r
 
 To test and view this development, edit/create files within the /docroot/files/ folder, and make pathnames for included resources relative to that position. When you are wanting to view the webpage, build and run the webserver from within Qt Creator, then access the webpage via the following URL:
 
-http://localhost:8080/files/<put path name relative to files folder here>
+http://localhost:8080/files/<\put path name relative to files folder here>
 
 Once development of the webpage is to an accepted standard, moving of the HTML/JS/CSS to within the webserver is trivial:
 
-1. Ensure no double quotation marks (") or comments of the form /**/ or // exist in HTML/JS/CSS resources, when copying over into within webserver. If double-quotation marks do exit, simply replace them with single quotation marks (').
+1. Ensure no double quotation marks (") or comments of the form /**/ or // exist in HTML/JS/CSS resources, when copying over into within webserver. If double-quotation marks do exist, simply replace them with single quotation marks (').
 
 2. Change relative pathnames to fit request mapping of webserver: at the top of the HTML webpage, in your src='' statement, put in the URL corresponding to the method you plan to put the CSS/JS code (e.g '/fusionMusic/fusion.js' would become the new pathname in my html, if I were to put my javascript code within a method that were called when /fusionMusic/fusion.js was requested).
 
