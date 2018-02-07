@@ -53,11 +53,11 @@ function doneName()
 
   var formData = new FormData();
 
-  formData.append("deviceName", name);
+  formData.append('deviceName', name);
 
   var request = new XMLHttpRequest();
 
-  request.open("POST", "/fusionMusic");
+  request.open('POST', '/fusionMusic');
 
   request.send(formData);
 
@@ -72,24 +72,35 @@ function doneName()
 
 function playPause()
 {
+
+  var songState;
+
   if (document.getElementById('playPauseButton').innerHTML == 'Play')
   {
+    songState = 'PAUSED';
+
     document.getElementById('playPauseButton').innerHTML = 'Pause';
   } else {
+    songState = 'PLAYING...';
+
     document.getElementById('playPauseButton').innerHTML = 'Play';
   }
-}
-
-function powerState(checkbox)
-{
-
-  if (checkbox.checked) {
-    document.getElementById('').innerHTML = 'OFF';
-  } else {
-    document.getElementById('').innerHTML = 'ON';
-  }
 
 
+
+  console.log(songState);
+
+  // SEND FORM DATA TO WEBSERVER WITHOUT REFRESHING PAGE
+
+  var formData = new FormData();
+
+  formData.append('songState', songState);
+
+  var request = new XMLHttpRequest();
+
+  request.open('POST', '/fusionMusic');
+
+  request.send(formData);
 
 }
 
@@ -99,8 +110,12 @@ function powerState()
   {
       document.getElementById('onLabel').innerHTML = 'ON';
       document.getElementById('onLabel').style.color = '#03c46a';
+
+      console.log("SWITCH IS NOW ON");
   } else {
       document.getElementById('onLabel').innerHTML = 'OFF';
       document.getElementById('onLabel').style.color = '#ba3728';
+
+      console.log("SWITCH IS NOW OFF");
   }
 }
