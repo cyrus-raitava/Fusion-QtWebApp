@@ -15,6 +15,7 @@ public:
     void returnJson(HttpRequest &request, HttpResponse &response);
     void returnJs(HttpRequest &request, HttpResponse &response);
     void returnCSS(HttpRequest &request, HttpResponse &response);
+    void setDeviceName(HttpRequest &request, HttpResponse &response);
 };
 
 #endif // FUSIONMUSICCONTROLLER_H

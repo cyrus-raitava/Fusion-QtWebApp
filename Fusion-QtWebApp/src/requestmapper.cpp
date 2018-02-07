@@ -41,7 +41,8 @@ void RequestMapper::service(HttpRequest& request, HttpResponse& response) {
             fusionMusicController.returnCSS(request, response);
         } else if (path=="/fusionMusic/fusion.js") {
             fusionMusicController.returnJs(request, response);
-        } else {
+        }
+        else {
             fusionMusicController.service(request, response);
         }
     }

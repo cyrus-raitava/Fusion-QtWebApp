@@ -76,6 +76,26 @@ button, .comboBox
   height: 35px;
 }
 
+
+#doneButton
+{
+  top: 22%;
+  color: #ffffff;
+  text-align: center;
+  width: 120px;
+  height: 35px;
+  visibility: hidden;
+
+  background-color: #03c46a; /* Green */
+  border: none;
+  padding: 10px 25px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+
+}
+
+
 #warningLabel
 {
   top: 27%;

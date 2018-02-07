@@ -24,7 +24,6 @@ SOURCES += src/main.cpp \
     src/testcontroller.cpp \
     src/htmltestcontroller.cpp \
     src/templatecontrollerexample.cpp \
-    src/musicappcontroller.cpp \
     src/fusioncontroller.cpp \
     src/fusionmusiccontroller.cpp
 
@@ -33,7 +32,6 @@ HEADERS += \
     src/testcontroller.h \
     src/htmltestcontroller.h \
     src/templatecontrollerexample.h \
-    src/musicappcontroller.h \
     src/fusioncontroller.h \
     src/fusionmusiccontroller.h
 
