@@ -58,6 +58,17 @@ void FusionMusicController::service(HttpRequest &request, HttpResponse &response
 
 
 
+    QByteArray powerState = request.getParameter("powerState");
+
+    int powerStateLength = powerState.size();
+
+    if (powerStateLength == 0)
+    {
+
+    } else {
+        qDebug() << "The current power state is: ";
+        qDebug() << powerState << endl;
+    }
 
 
 

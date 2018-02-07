@@ -16,6 +16,7 @@ function changeName()
 
 }
 
+// Function for POSTing data to the webserver, regarding change in device name, as well as updating HTML to reflect change
 
 function doneName()
 {
@@ -46,21 +47,9 @@ function doneName()
   document.getElementById('changeButton').innerHTML = 'CHANGE';
   document.getElementById('changeButton').onclick = changeName;
 
-
-
-
   // SEND FORM DATA TO WEBSERVER WITHOUT REFRESHING PAGE
 
-  var formData = new FormData();
-
-  formData.append('deviceName', name);
-
-  var request = new XMLHttpRequest();
-
-  request.open('POST', '/fusionMusic');
-
-  request.send(formData);
-
+  sendFormData('deviceName', name);
 
   }
 
@@ -68,7 +57,7 @@ function doneName()
 
 
 
-
+// Function for POSTing data to the webserver, regarding change in play/pause state of current song
 
 function playPause()
 {
@@ -89,54 +78,68 @@ function playPause()
 
   // SEND FORM DATA TO WEBSERVER WITHOUT REFRESHING PAGE
 
-  var formData = new FormData();
-
-  formData.append('songState', songState);
-
-  var request = new XMLHttpRequest();
-
-  request.open('POST', '/fusionMusic');
-
-  request.send(formData);
+  sendFormData('songState', songState);
 
 }
 
-function powerState()
+// Function for POSTing data to the webserver, regarding change in power state of server/webserver
+
+function powerChange()
 {
+
+  var powerState;
+
   if (document.getElementById('switch').checked)
   {
       document.getElementById('onLabel').innerHTML = 'ON';
       document.getElementById('onLabel').style.color = '#03c46a';
 
-      console.log("SWITCH IS NOW ON");
+      powerState = 'ON';
+
+      // TESTING PURPOSES console.log("SWITCH IS NOW ON");
   } else {
       document.getElementById('onLabel').innerHTML = 'OFF';
       document.getElementById('onLabel').style.color = '#ba3728';
 
-      console.log("SWITCH IS NOW OFF");
+      // TESTING PURPOSES console.log("SWITCH IS NOW OFF");
+
+      powerState = 'OFF';
   }
+
+
+  sendFormData('powerState', powerState);
+
+
+
 }
+
+
+// Function for POSTing data to the webserver, regarding change in Source Type
+
 
 function sourceChange()
 {
 
   var sourceType = document.getElementById('choiceBox').value;
 
-  console.log(sourceType);
 
+  sendFormData('sourceType', sourceType);
 
+}
+
+// Function to POST data, with input parameters 'attribute' and 'information'
+
+function sendFormData(attribute, information)
+{
   // SEND FORM DATA TO WEBSERVER WITHOUT REFRESHING PAGE
 
   var formData = new FormData();
 
-  formData.append('sourceType', sourceType);
+  formData.append(attribute, information);
 
   var request = new XMLHttpRequest();
 
   request.open('POST', '/fusionMusic');
 
   request.send(formData);
-
-
-
 }
