@@ -13,71 +13,33 @@ void FusionMusicController::service(HttpRequest &request, HttpResponse &response
 {
 
 
-    QByteArray deviceName = request.getParameter("deviceName");
-
-    int deviceNameLength = deviceName.size();
-
-    if (deviceNameLength == 0)
+    if (request.hasParameter("deviceName", request.getParameter("deviceName")))
     {
+        QByteArray deviceName = request.getParameter("deviceName");
+    }
 
-    } else {
 
-    qDebug() << "The new device name is: " << deviceName;
-
+    if (request.hasParameter("songState", request.getParameter("songState")))
+    {
+       QByteArray songState = request.getParameter("songState");
     }
 
 
 
 
-
-
-    QByteArray songState = request.getParameter("songState");
-
-    int songStateLength = songState.size();
-
-    if (songStateLength == 0)
+    if (request.hasParameter("sourceType", request.getParameter("sourceType")))
     {
-
-    } else {
-        qDebug() << "The current state of the song is: ";
-        qDebug() << songState << endl;
+        QByteArray sourceType = request.getParameter("sourceType");
     }
 
 
 
-    QByteArray sourceType = request.getParameter("sourceType");
-
-    int sourceTypeLength = sourceType.size();
-
-    if (sourceTypeLength == 0)
+    if (request.hasParameter("powerState", request.getParameter("powerState")))
     {
-
-    } else {
-        qDebug() << "The current chosen source is: ";
-        qDebug() << sourceType << endl;
+        QByteArray powerState = request.getParameter("powerState");
     }
 
 
-
-    QByteArray powerState = request.getParameter("powerState");
-
-    int powerStateLength = powerState.size();
-
-    if (powerStateLength == 0)
-    {
-
-    } else {
-        qDebug() << "The current power state is: ";
-        qDebug() << powerState << endl;
-    }
-
-
-
-    bool powVal = request.hasParameter("powerState", request.getParameter("powerState"));
-
-
-
-    qDebug() << "THE REQUEST CONTAINS THE POWERSTATE PARAM: " << powVal << endl;
 
 
 
