@@ -15,6 +15,8 @@ public:
 
     void byteMerger(QByteArray &command, QByteArray &message);
 
+    QByteArray fapiSetDeviceName(QByteArray& deviceName);
+
 
 };
 

@@ -57,4 +57,9 @@ void FusionLinkTcpMessage::byteMerger(QByteArray &command, QByteArray &message)
 
 }
 
+QByteArray fapiSetDeviceName(QByteArray& deviceName)
+{
+    return deviceName.toHex();
+}
+
 
