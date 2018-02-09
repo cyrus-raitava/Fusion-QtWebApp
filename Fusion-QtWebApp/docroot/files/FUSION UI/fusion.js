@@ -96,12 +96,12 @@ function powerChange()
 
       powerState = 'ON';
 
-      // TESTING PURPOSES console.log("SWITCH IS NOW ON");
+      // TESTING PURPOSES console.log('SWITCH IS NOW ON');
   } else {
       document.getElementById('onLabel').innerHTML = 'OFF';
       document.getElementById('onLabel').style.color = '#ba3728';
 
-      // TESTING PURPOSES console.log("SWITCH IS NOW OFF");
+      // TESTING PURPOSES console.log('SWITCH IS NOW OFF');
 
       powerState = 'OFF';
   }

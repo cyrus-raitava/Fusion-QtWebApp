@@ -25,8 +25,7 @@ SOURCES += src/main.cpp \
     src/htmltestcontroller.cpp \
     src/templatecontrollerexample.cpp \
     src/fusioncontroller.cpp \
-    src/fusionmusiccontroller.cpp \
-    src/fusionlinktcpmessage.cpp
+    src/fusionmusiccontroller.cpp
 
 HEADERS += \
     src/requestmapper.h \
@@ -35,7 +34,6 @@ HEADERS += \
     src/templatecontrollerexample.h \
     src/fusioncontroller.h \
     src/fusionmusiccontroller.h \
-    src/fusionlinktcpmessage.h
 
 
 OTHER_FILES += etc/webapp1.ini \
