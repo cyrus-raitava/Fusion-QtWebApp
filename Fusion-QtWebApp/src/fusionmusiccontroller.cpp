@@ -29,6 +29,10 @@ void FusionMusicController::service(HttpRequest &request, HttpResponse &response
 
     qDebug() << iPod << "<--- THIS IS IPOD AS HEX" << endl;
 
+    qDebug() << iPod[0] << "<--- iPod[0]" << endl;
+
+    qDebug() << iPod[1] << "<--- iPod[1]" << endl;
+
     QByteArray size(4, 0);
 
 
@@ -48,12 +52,11 @@ void FusionMusicController::service(HttpRequest &request, HttpResponse &response
 
 
 
-//    FusionLinkTcpMessage fltcpm;
-
-//    QByteArray command  = "fapiGetState";
 
 
-//    qDebug() << "LITTLE ENDIAN COMMAND FAPIGETSTATE" << (QByteArray)qFromBigEndian(fltcpm.commandEncode(command)) << endl << endl;
+
+
+
 
 
 
@@ -155,7 +158,7 @@ void FusionMusicController::service(HttpRequest &request, HttpResponse &response
 
 QByteArray FusionMusicController::commandEncode(QByteArray &command)
 {
-    QByteArray output;
+    QByteArray output(2, 0);
 
     if (command == "fapiGetState") {
         output[0] = 0x01;
@@ -233,9 +236,40 @@ QByteArray FusionMusicController::sizeBytes(int size)
 
 QByteArray FusionMusicController::fapiSetDeviceName(QByteArray &deviceName)
 {
-    qDebug() << deviceName.toHex().size() << endl;
+    int nameLength = deviceName.size() + 1;
 
-    return deviceName.toHex();
+    QByteArray message(nameLength, 0);
+
+//    QString nameLengthHex = QString().number(nameLength, 16);
+
+//    if (nameLengthHex.size() == 1)
+//    {
+//        nameLengthHex.prepend("0");
+//    }
+
+//    QByteArray messagePrefix(1, 0);
+
+//    messagePrefix = QByteArray::fromHex(nameLengthHex.toLatin1());
+
+    message[0] = nameLength; /*messagePrefix[0];*/
+
+    QByteArray hexName(nameLength, 0);
+
+    hexName = deviceName.toHex();
+
+    qDebug << (QString)hexName[0] << "<----- hexName[0]" << endl;
+
+// NEED TO FIX ALL AROUND HERE PROPERLY, AND COMMENT CODE, WON'T COMPILE IN CURRENT STATE
+
+
+    message.insert(1, hexName);
+
+
+
+
+    qDebug() << deviceName.toHex().size()/2 << endl;
+
+    return message;
 }
 
 QByteArray FusionMusicController::fapiSetPowerState(QByteArray &state)
@@ -255,7 +289,6 @@ QByteArray FusionMusicController::fapiSetPowerState(QByteArray &state)
 
        qDebug() << powerState.toHex();
 
-       qDebug() << "STATE IS: " << state << endl;
 
        return powerState;
 }
