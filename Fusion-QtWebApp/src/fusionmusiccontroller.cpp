@@ -378,7 +378,7 @@ void FusionMusicController::printTcpPacket(QByteArray &input)
 
     for (int i = 0; i < hexInput.size(); i+=2)
     {
-        qDebug() << hexInput[i] << hexInput[i + 1] << endl;
+        qDebug() << "0x" << hexInput[i] << hexInput[i + 1] << endl;
 
     }
 
