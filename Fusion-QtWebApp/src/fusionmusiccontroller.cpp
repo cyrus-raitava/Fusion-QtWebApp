@@ -11,64 +11,25 @@ FusionMusicController::FusionMusicController (QObject* parent) : HttpRequestHand
     // Empty
 }
 
+
+
 void FusionMusicController::service(HttpRequest &request, HttpResponse &response)
 {
-
-    QByteArray example;
-
-    example[0] = 0x1c;
-    example[1] = 0x00;
-    example[2] = 0x01;
-
-
-    QByteArray ex = checkSumXor(example);
-
-    QByteArray nam = "iPod";
-
-    QByteArray iPod = fapiSetDeviceName(nam);
-
-    qDebug() << iPod << "<--- THIS IS IPOD AS HEX" << endl;
-
-    qDebug() << iPod[0] << "<--- iPod[0]" << endl;
-
-    qDebug() << iPod[1] << "<--- iPod[1]" << endl;
-
-    QByteArray size(4, 0);
-
-
-    size = sizeBytes(17);
-
-    qDebug() << size.toHex() << endl;
-
-    QByteArray powerState = request.getParameter("powerState");
-
-    QByteArray pow = fapiSetPowerState(powerState);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     if (request.hasParameter("deviceName", request.getParameter("deviceName")))
     {
         QByteArray deviceName = request.getParameter("deviceName");
+        QByteArray com = "fapiSetDeviceName";
+
+        byteMerger(com, deviceName);
     }
 
 
     if (request.hasParameter("songState", request.getParameter("songState")))
     {
        QByteArray songState = request.getParameter("songState");
+       QByteArray com = "fapiSetMedia";
     }
 
 
@@ -77,6 +38,7 @@ void FusionMusicController::service(HttpRequest &request, HttpResponse &response
     if (request.hasParameter("sourceType", request.getParameter("sourceType")))
     {
         QByteArray sourceType = request.getParameter("sourceType");
+        QByteArray com = "fapiSetSource";
     }
 
 
@@ -84,6 +46,8 @@ void FusionMusicController::service(HttpRequest &request, HttpResponse &response
     if (request.hasParameter("powerState", request.getParameter("powerState")))
     {
         QByteArray powerState = request.getParameter("powerState");
+        QByteArray com = "fapiSetPowerState";
+        byteMerger(com, powerState);
     }
 
 
@@ -92,9 +56,9 @@ void FusionMusicController::service(HttpRequest &request, HttpResponse &response
 
 
 
+    // Code for webpage generation here
 
-
-
+    if (true) {
 
     // Simple HTML5 webpage to be sent to the client, for Fusion_QtWebApp Music UI Application
 
@@ -153,9 +117,18 @@ void FusionMusicController::service(HttpRequest &request, HttpResponse &response
      response.write("</body>");
 
      response.write("</html>", true);
+    }
 
 }
 
+
+
+
+/**
+ * @brief function that maps fapiCommand to corresponding little Endian encoding of command bytes ID
+ * @param command
+ * @return two-bytes QByteArray, containing formatting of command
+ */
 QByteArray FusionMusicController::commandEncode(QByteArray &command)
 {
     QByteArray output(2, 0);
@@ -185,6 +158,13 @@ QByteArray FusionMusicController::commandEncode(QByteArray &command)
     return output;
 }
 
+
+
+/**
+ * @brief command that uses all the other individual formatting functions, to concatenate and print out the QByteArray, for the corresponding interaction with the webpage
+ * @param command - the fapi Command, which determines how the QByteArray is formatted/written, and how the message variable is read
+ * @param message - the actual content of the message itself, containing flags (e.g on/off, deviceName etc)
+ */
 void FusionMusicController::byteMerger(QByteArray &command, QByteArray &message)
 {
 
@@ -193,23 +173,85 @@ void FusionMusicController::byteMerger(QByteArray &command, QByteArray &message)
     // Set header byte
     outputPacket[0] = 0xff;
 
+
+    // Set message length bytes
+    QByteArray messageLength;
+    int messageSize = message.size();
+
+
+
+    qDebug() << "THE SIZE OF THE MESSAGE FOR THE: " << command << "COMMAND, IS: " << messageSize << endl;
+
+    messageLength = sizeBytes(messageSize + 3);
+
+    outputPacket[1] = messageLength[0];
+    outputPacket[2] = messageLength[1];
+
+
+    // Set the fourth and fifth command bytes
     QByteArray commandCode = commandEncode(command);
+    outputPacket[3] = commandCode[0];
+    outputPacket[4] = commandCode[1];
 
-    QByteArray messageLength[2];
 
 
 
+
+    QByteArray encodedMessage;
+
+    if (command == "fapiGetState") {
+
+    } else if (command == "fapiSetDeviceName") {
+        encodedMessage = fapiSetDeviceName(message);
+    } else if (command == "fapiSetPowerState") {
+        encodedMessage = fapiSetPowerState(message);
+    } else if (command == "fapiSource") {
+
+    } else if (command == "fapiSetSource") {
+
+    } else if (command == "fapiSetMedia") {
+
+    } else {
+        qDebug() << "NO VALID COMMAND IDENTIFIED" << endl;
+    }
+
+    outputPacket.insert(5, encodedMessage);
+
+
+
+
+    // Create checksum byte, to append on end of outputPacket
+
+    QByteArray checkSum;
+
+    encodedMessage.prepend(commandCode);
+
+
+    checkSum = checkSumXor(encodedMessage);
+
+    outputPacket.append(checkSum);
+
+    qDebug() << "YOUR CHOSEN ACTION CALLED THE COMMAND: " << command << "PRODUCING THE FOLLOWING TCP PACKET TO SEND TO THE FUSBUS:" << endl;
+
+    printTcpPacket(outputPacket);
 
 
 }
 
+
+
+
+/**
+ * @brief function to find and return the size of the message itself, in the desired format
+ * @param size takes in an int size of the message
+ * @return two byte array, of the size in hex form
+ */
 QByteArray FusionMusicController::sizeBytes(int size)
 {
     QByteArray result(2, 0);
 
     QString hexNum = QString().number(size, 16);
 
-    qDebug() << "HEX equivalent of " << size << " is: " << hexNum << endl;
 
     if (hexNum.size() == 1) {
         hexNum.prepend("000");
@@ -234,84 +276,90 @@ QByteArray FusionMusicController::sizeBytes(int size)
     return result;
 }
 
+
+
+/**
+ * @brief Function that returns hex QByteArray encoding of deviceName
+ * @param deviceName
+ * @return hex QByteArray
+ */
 QByteArray FusionMusicController::fapiSetDeviceName(QByteArray &deviceName)
 {
-    int nameLength = deviceName.size() + 1;
-
-    QByteArray message(nameLength, 0);
-
-//    QString nameLengthHex = QString().number(nameLength, 16);
-
-//    if (nameLengthHex.size() == 1)
-//    {
-//        nameLengthHex.prepend("0");
-//    }
-
-//    QByteArray messagePrefix(1, 0);
-
-//    messagePrefix = QByteArray::fromHex(nameLengthHex.toLatin1());
-
-    message[0] = nameLength; /*messagePrefix[0];*/
-
-    QByteArray hexName(nameLength, 0);
-
-    hexName = deviceName.toHex();
-
-    qDebug << (QString)hexName[0] << "<----- hexName[0]" << endl;
-
-// NEED TO FIX ALL AROUND HERE PROPERLY, AND COMMENT CODE, WON'T COMPILE IN CURRENT STATE
 
 
-    message.insert(1, hexName);
+    QByteArray example(2, 0);
+
+    example[0] = 0x69;
+    example.append("i");
+
+    // messageLength is nameLength + 1, to account for leading length byte; trailing null terminator is automatically accounted for by QByteArray
+    int messageLength = deviceName.size() + 1;
+
+    QByteArray message(messageLength, 0);
+
+    message[0] = messageLength;
+
+    for (int i = 0; i < deviceName.size(); i++)
+    {
+        message[i + 1] = deviceName[i];
+    }
 
 
-
-
-    qDebug() << deviceName.toHex().size()/2 << endl;
 
     return message;
 }
 
+
+
+/**
+ * @brief function that can be used to map 'ON'/'OFF' state of webpage UI, with corresponding on/off flag for fapiSetPowerState command
+ * @param state
+ * @return QByte Array of length 1, either 0x01, or 0x02
+ */
 QByteArray FusionMusicController::fapiSetPowerState(QByteArray &state)
 {
-       QByteArray powerState(1, 0);
+    // Note ternary operator could've been used here instead, but verboseness is to help with debugging
+    QByteArray powerState(1, 0);
 
-       if (state == "ON")
-       {
-            powerState[0] = 0x01;
+    if (state == "ON")
+    {
+        powerState[0] = 0x01;
 
-       } else if (state == "OFF")
-       {
-            powerState[0] = 0x02;
-       } else {
-           qDebug() << "ERROR! Request is neither ON nor OFF." << endl;
-       }
-
-       qDebug() << powerState.toHex();
+    } else if (state == "OFF")
+    {
+        powerState[0] = 0x02;
+    } else {
+       qDebug() << "ERROR! Request is neither ON nor OFF." << endl;
+    }
 
 
-       return powerState;
+
+    return powerState;
 }
 
 
 
+
+/**
+ * @brief function that runs through input QByteArray, reads each array element, and calculates a running XOR checksum, to append to the end of the over-arching TCP packet
+ * @param input
+ * @return QByteArray of length one, containing XOR checksum byte.
+ */
 QByteArray FusionMusicController::checkSumXor(QByteArray &input)
 {
     int XOR = 0;
     int i;
 
-    QByteArray result(1, 0);
+    QByteArray result;
 
     for (i = 0; i <= input.size(); i++)
     {
         XOR ^= input[i];
 
-        qDebug() << "input[" << i << "] is: " << input[i] << endl;
     }
 
-    qDebug() << "THIS IS THE CHECKSUM RESULT RIGHT HERE:" << QString::number(XOR, 16) << endl;
 
-    result.append(QString::number(XOR, 16));
+    result[0] = XOR;
 
     return result;
 
@@ -319,14 +367,22 @@ QByteArray FusionMusicController::checkSumXor(QByteArray &input)
 
 
 
+void FusionMusicController::printTcpPacket(QByteArray &input)
+{
+    QByteArray hexInput = input.toHex();
+
+    QByteArray output;
+
+    int count = 0;
 
 
+    for (int i = 0; i < hexInput.size(); i+=2)
+    {
+        qDebug() << hexInput[i] << hexInput[i + 1] << endl;
 
+    }
 
-
-
-
-
+}
 
 
 

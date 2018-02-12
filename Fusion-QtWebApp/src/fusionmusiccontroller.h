@@ -26,6 +26,8 @@ public:
     QByteArray sizeBytes(int size);
 
     QByteArray checkSumXor(QByteArray &input);
+
+    void printTcpPacket(QByteArray &input);
 private:
 
 };
