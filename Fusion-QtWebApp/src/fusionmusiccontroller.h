@@ -20,12 +20,16 @@ public:
     void byteMerger(QByteArray &command, QByteArray &message);
     QByteArray commandEncode(QByteArray &command);
 
+    QByteArray fapiSetSourceType(QByteArray &sourceID);
     QByteArray fapiSetDeviceName(QByteArray &deviceName);
     QByteArray fapiSetPowerState(QByteArray &state);
+    QByteArray fapiSetMediaState(QByteArray &songState);
 
-    QByteArray sizeBytes(int size);
+    QByteArray sizeHexBytes(int size);
 
     QByteArray checkSumXor(QByteArray &input);
+
+    int messageSizeMapping(QByteArray &command, QByteArray &message);
 
     void printTcpPacket(QByteArray &input);
 private:

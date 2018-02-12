@@ -30,6 +30,8 @@ void FusionMusicController::service(HttpRequest &request, HttpResponse &response
     {
        QByteArray songState = request.getParameter("songState");
        QByteArray com = "fapiSetMedia";
+
+       byteMerger(com, songState);
     }
 
 
@@ -39,6 +41,8 @@ void FusionMusicController::service(HttpRequest &request, HttpResponse &response
     {
         QByteArray sourceType = request.getParameter("sourceType");
         QByteArray com = "fapiSetSource";
+
+
     }
 
 
@@ -96,6 +100,7 @@ void FusionMusicController::service(HttpRequest &request, HttpResponse &response
          response.write("<option value='AM'>AM</option>");
          response.write("<option value='FM'>FM</option>");
          response.write("<option value='AUX'>AUX</option>");
+         response.write("<option value='iPod'>iPod</option>");
          response.write("<option value='Bluetooth'>Bluetooth</option>");
        response.write("</select>");
 
@@ -176,13 +181,13 @@ void FusionMusicController::byteMerger(QByteArray &command, QByteArray &message)
 
     // Set message length bytes
     QByteArray messageLength;
-    int messageSize = message.size();
 
 
 
-    qDebug() << "THE SIZE OF THE MESSAGE FOR THE: " << command << "COMMAND, IS: " << messageSize << endl;
 
-    messageLength = sizeBytes(messageSize + 3);
+    qDebug() << "THE SIZE OF THE MESSAGE FOR THE: " << command << "COMMAND, IS: " << messageSizeMapping(command, message) << endl;
+
+    messageLength = sizeHexBytes(messageSizeMapping(command, message));
 
     outputPacket[1] = messageLength[0];
     outputPacket[2] = messageLength[1];
@@ -210,7 +215,7 @@ void FusionMusicController::byteMerger(QByteArray &command, QByteArray &message)
     } else if (command == "fapiSetSource") {
 
     } else if (command == "fapiSetMedia") {
-
+        encodedMessage = fapiSetMediaState(message);
     } else {
         qDebug() << "NO VALID COMMAND IDENTIFIED" << endl;
     }
@@ -239,14 +244,39 @@ void FusionMusicController::byteMerger(QByteArray &command, QByteArray &message)
 }
 
 
+int FusionMusicController::messageSizeMapping(QByteArray &command, QByteArray &message)
+{
+    int messageSize;
 
+    if (command == "fapiGetState") {
+
+    } else if (command == "fapiSetDeviceName") {
+        // Size is input string, +1 for the leading byte for string size
+        messageSize = message.size() + 1;
+    } else if (command == "fapiSetPowerState") {
+        // Size of the message here is always one flag, representing ON or OFF
+        messageSize = 1;
+    } else if (command == "fapiSource") {
+
+    } else if (command == "fapiSetSource") {
+
+    } else if (command == "fapiSetMedia") {
+        // Message itself here consists of two uint8 flags
+        messageSize = 2;
+    } else {
+        messageSize = -2;
+    }
+
+    // Add two to message length, to signify how message length includes command bytes as well
+    return messageSize + 2;
+}
 
 /**
  * @brief function to find and return the size of the message itself, in the desired format
  * @param size takes in an int size of the message
  * @return two byte array, of the size in hex form
  */
-QByteArray FusionMusicController::sizeBytes(int size)
+QByteArray FusionMusicController::sizeHexBytes(int size)
 {
     QByteArray result(2, 0);
 
@@ -276,7 +306,31 @@ QByteArray FusionMusicController::sizeBytes(int size)
     return result;
 }
 
+/**
+ * @brief Function that maps input parameter of Source Type, to hex byte array to output
+ * @param sourceID
+ * @return hex QByteArray
+ */
+QByteArray FusionMusicController::fapiSetSourceType(QByteArray &sourceID)
+{
+    QByteArray hexSourceType;
 
+    if (sourceID == "AM") {
+
+    } else if (sourceID == "FM") {
+
+    } else if (sourceID == "AUX") {
+
+    } else if (sourceID == "iPod") {
+
+    } else if (sourceID == "Bluetooth") {
+
+    } else {
+
+    }
+
+
+}
 
 /**
  * @brief Function that returns hex QByteArray encoding of deviceName
@@ -285,12 +339,6 @@ QByteArray FusionMusicController::sizeBytes(int size)
  */
 QByteArray FusionMusicController::fapiSetDeviceName(QByteArray &deviceName)
 {
-
-
-    QByteArray example(2, 0);
-
-    example[0] = 0x69;
-    example.append("i");
 
     // messageLength is nameLength + 1, to account for leading length byte; trailing null terminator is automatically accounted for by QByteArray
     int messageLength = deviceName.size() + 1;
@@ -304,9 +352,36 @@ QByteArray FusionMusicController::fapiSetDeviceName(QByteArray &deviceName)
         message[i + 1] = deviceName[i];
     }
 
-
-
     return message;
+}
+
+
+
+
+/**
+ * @brief FusionMusicController::fapiSetMediaState
+ * @param sourceID
+ * @param songState
+ * @return
+ */
+QByteArray FusionMusicController::fapiSetMediaState(QByteArray &songState)
+{
+
+    QByteArray result;
+
+    // For now, set Source ID to just be 1:
+    result[0] = 0x01;
+
+    if (songState == "PLAYING") {
+        result[1] = 0x01;
+    } else if (songState == "PAUSED") {
+        result[1] = 0x02;
+    } else {
+        qDebug() << "fapiSetMediaState() ERROR: neither PAUSED/PLAYING ACKNOWLEDGED" << endl;
+    }
+
+    return result;
+
 }
 
 
@@ -404,7 +479,8 @@ void FusionMusicController::returnJs(HttpRequest &request, HttpResponse &respons
 
 //    response.write("", true);
 
-    response.write("function changeName() { document.getElementById('setDeviceName').value = document.getElementById('name').innerHTML; document.getElementById('name').style.visibility = 'hidden'; document.getElementById('setDeviceName').style.visibility = 'visible'; document.getElementById('changeButton').innerHTML = 'DONE'; document.getElementById('changeButton').onclick = doneName; document.getElementById('setDeviceName').focus(); document.getElementById('setDeviceName').select(); } function doneName() { var name = document.getElementById('setDeviceName').value; if (name.length > 10) { document.getElementById('warningLabel').innerHTML = 'Warning! Name cannot be longer than 10 characters.'; document.getElementById('warningLabel').style.visibility = 'visible'; } else if (name.length == 0) { document.getElementById('warningLabel').innerHTML = 'Warning! Name must be at least one character long.'; document.getElementById('warningLabel').style.visibility = 'visible'; } else { document.getElementById('warningLabel').style.visibility = 'hidden'; document.getElementById('name').innerHTML = name; document.getElementById('setDeviceName').value = ''; document.getElementById('name').style.visibility = 'visible'; document.getElementById('setDeviceName').style.visibility = 'hidden'; document.getElementById('changeButton').innerHTML = 'CHANGE'; document.getElementById('changeButton').onclick = changeName; sendFormData('deviceName', name); } } function playPause() { var songState; if (document.getElementById('playPauseButton').innerHTML == 'Play') { songState = 'PAUSED'; document.getElementById('playPauseButton').innerHTML = 'Pause'; } else { songState = 'PLAYING...'; document.getElementById('playPauseButton').innerHTML = 'Play'; } sendFormData('songState', songState); } function powerChange() { var powerState; if (document.getElementById('switch').checked) { document.getElementById('onLabel').innerHTML = 'ON'; document.getElementById('onLabel').style.color = '#03c46a'; powerState = 'ON'; } else { document.getElementById('onLabel').innerHTML = 'OFF'; document.getElementById('onLabel').style.color = '#ba3728'; powerState = 'OFF'; } sendFormData('powerState', powerState); } function sourceChange() { var sourceType = document.getElementById('choiceBox').value; sendFormData('sourceType', sourceType); } function sendFormData(attribute, information) { var formData = new FormData(); formData.append(attribute, information); var request = new XMLHttpRequest(); request.open('POST', '/fusionMusic'); request.send(formData); }", true);
+    response.write("function changeName() { document.getElementById('setDeviceName').value = document.getElementById('name').innerHTML; document.getElementById('name').style.visibility = 'hidden'; document.getElementById('setDeviceName').style.visibility = 'visible'; document.getElementById('changeButton').innerHTML = 'DONE'; document.getElementById('changeButton').onclick = doneName; document.getElementById('setDeviceName').focus(); document.getElementById('setDeviceName').select(); } function doneName() { var name = document.getElementById('setDeviceName').value; if (name.length > 10) { document.getElementById('warningLabel').innerHTML = 'Warning! Name cannot be longer than 10 characters.'; document.getElementById('warningLabel').style.visibility = 'visible'; } else if (name.length == 0) { document.getElementById('warningLabel').innerHTML = 'Warning! Name must be at least one character long.'; document.getElementById('warningLabel').style.visibility = 'visible'; } else { document.getElementById('warningLabel').style.visibility = 'hidden'; document.getElementById('name').innerHTML = name; document.getElementById('setDeviceName').value = ''; document.getElementById('name').style.visibility = 'visible'; document.getElementById('setDeviceName').style.visibility = 'hidden'; document.getElementById('changeButton').innerHTML = 'CHANGE'; document.getElementById('changeButton').onclick = changeName; sendFormData('deviceName', name); } } function playPause() { var songState; if (document.getElementById('playPauseButton').innerHTML == 'Play') { songState = 'PLAYING'; document.getElementById('playPauseButton').innerHTML = 'Pause'; } else { songState = 'PAUSED'; document.getElementById('playPauseButton').innerHTML = 'Play'; } sendFormData('songState', songState); } function powerChange() { var powerState; if (document.getElementById('switch').checked) { document.getElementById('onLabel').innerHTML = 'ON'; document.getElementById('onLabel').style.color = '#03c46a'; powerState = 'ON'; } else { document.getElementById('onLabel').innerHTML = 'OFF'; document.getElementById('onLabel').style.color = '#ba3728'; powerState = 'OFF'; } sendFormData('powerState', powerState); } function sourceChange() { var sourceType = document.getElementById('choiceBox').value; sendFormData('sourceType', sourceType); } function sendFormData(attribute, information) { var formData = new FormData(); formData.append(attribute, information); var request = new XMLHttpRequest(); request.open('POST', '/fusionMusic'); request.send(formData); }", true);
+
 }
 
 void FusionMusicController::returnCSS(HttpRequest &request, HttpResponse &response)

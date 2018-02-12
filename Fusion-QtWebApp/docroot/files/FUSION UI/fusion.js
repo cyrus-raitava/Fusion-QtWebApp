@@ -66,11 +66,11 @@ function playPause()
 
   if (document.getElementById('playPauseButton').innerHTML == 'Play')
   {
-    songState = 'PAUSED';
+    songState = 'PLAYING';
 
     document.getElementById('playPauseButton').innerHTML = 'Pause';
   } else {
-    songState = 'PLAYING...';
+    songState = 'PAUSED';
 
     document.getElementById('playPauseButton').innerHTML = 'Play';
   }
