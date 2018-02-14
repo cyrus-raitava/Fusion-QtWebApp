@@ -34,7 +34,8 @@ public:
 
     void printTcpPacket(QByteArray &input);
 
-    void hexDecoder();
+    void hexDecoderCheck();
+    void sizeCheck(QByteArray &sizeBytes);
 
 
 private:

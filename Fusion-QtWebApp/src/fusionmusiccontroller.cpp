@@ -490,7 +490,19 @@ void FusionMusicController::printTcpPacket(QByteArray &input)
 
 }
 
-void FusionMusicController::hexDecoder()
+
+
+
+
+
+
+
+
+
+
+
+
+void FusionMusicController::hexDecoderCheck()
 {
     QByteArray qCommand;
     char command[256];
@@ -500,6 +512,8 @@ void FusionMusicController::hexDecoder()
     std::cin.getline(command,256);
 
     qCommand = QByteArray::fromHex(command);
+
+
 
     qDebug() << "qCommand is: " << qCommand << endl;
 
@@ -523,5 +537,10 @@ void FusionMusicController::hexDecoder()
 
 //    uint length =
 
+
+}
+
+void FusionMusicController::sizeCheck(QByteArray &sizeBytes)
+{
 
 }
