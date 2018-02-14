@@ -96,10 +96,33 @@ function powerChange()
 
       powerState = 'ON';
 
+      // Enable all pressable elements on web interface, when application is 'on'
+
+      document.getElementById('moreInfoButton').disabled = false;
+      document.getElementById('changeButton').disabled = false;
+      document.getElementById('playPauseButton').disabled = false;
+      document.getElementById('choiceBox').disabled = false;
+
+
       // TESTING PURPOSES console.log('SWITCH IS NOW ON');
   } else {
+
       document.getElementById('onLabel').innerHTML = 'OFF';
       document.getElementById('onLabel').style.color = '#ba3728';
+
+
+      // Disable all pressable elements on web interface, when application is 'off'
+
+      document.getElementById('moreInfoButton').disabled = true;
+      document.getElementById('changeButton').disabled = true;
+      document.getElementById('warningLabel').hidden = true;
+      document.getElementById('playPauseButton').disabled = true;
+      document.getElementById('choiceBox').disabled = true;
+
+
+
+
+
 
       // TESTING PURPOSES console.log('SWITCH IS NOW OFF');
 
