@@ -127,7 +127,7 @@ void FusionMusicController::service(HttpRequest &request, HttpResponse &response
 
 
 
-    hexDecoder();
+    hexDecoderCheck();
 
 
 }
@@ -504,6 +504,7 @@ void FusionMusicController::printTcpPacket(QByteArray &input)
 
 void FusionMusicController::hexDecoderCheck()
 {
+
     QByteArray qCommand;
     char command[256];
 
@@ -513,11 +514,19 @@ void FusionMusicController::hexDecoderCheck()
 
     qCommand = QByteArray::fromHex(command);
 
-
+    QByteArray sizeBytes;
+    sizeBytes[0] = qCommand.toHex()[2];
 
     qDebug() << "qCommand is: " << qCommand << endl;
 
     qDebug() << "qCommand::toHex() is: " << qCommand.toHex() << endl;
+
+    qDebug() << "qCommand::toHex()[0] is: " << qCommand.toHex()[0] << endl;
+
+    qDebug() << "qCommand::toHex()[1] is: " << qCommand.toHex()[1] << endl;
+
+    qDebug() << "qCommand::toHex()[2] is: " << qCommand.toHex()[2] << endl;
+
 
     qDebug() << "Length bytes from qCommand are: " << command[2] << command[3] << endl;
 
