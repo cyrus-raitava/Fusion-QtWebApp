@@ -6,6 +6,7 @@
 #include <QJsonDocument>
 #include <QtEndian>
 #include <iostream>
+#include <QString>
 
 FusionMusicController::FusionMusicController (QObject* parent) : HttpRequestHandler(parent)
 {
@@ -17,22 +18,23 @@ FusionMusicController::FusionMusicController (QObject* parent) : HttpRequestHand
 void FusionMusicController::service(HttpRequest &request, HttpResponse &response)
 {
 
+    QByteArray command;
 
     if (request.hasParameter("deviceName", request.getParameter("deviceName")))
     {
         QByteArray deviceName = request.getParameter("deviceName");
-        QByteArray com = "fapiSetDeviceName";
+        command = "fapiSetDeviceName";
 
-        byteMerger(com, deviceName);
+        byteMerger(command,  deviceName);
     }
 
 
     if (request.hasParameter("songState", request.getParameter("songState")))
     {
        QByteArray songState = request.getParameter("songState");
-       QByteArray com = "fapiSetMedia";
+       command = "fapiSetMedia";
 
-       byteMerger(com, songState);
+       byteMerger(command,  songState);
     }
 
 
@@ -41,7 +43,7 @@ void FusionMusicController::service(HttpRequest &request, HttpResponse &response
     if (request.hasParameter("sourceType", request.getParameter("sourceType")))
     {
         QByteArray sourceType = request.getParameter("sourceType");
-        QByteArray com = "fapiSetSource";
+        command = "fapiSetSource";
 
 
     }
@@ -51,8 +53,8 @@ void FusionMusicController::service(HttpRequest &request, HttpResponse &response
     if (request.hasParameter("powerState", request.getParameter("powerState")))
     {
         QByteArray powerState = request.getParameter("powerState");
-        QByteArray com = "fapiSetPowerState";
-        byteMerger(com, powerState);
+        command = "fapiSetPowerState";
+        byteMerger(command,  powerState);
     }
 
 
@@ -76,9 +78,9 @@ void FusionMusicController::service(HttpRequest &request, HttpResponse &response
     response.write("<link type='text/css'  rel='stylesheet' href='/fusionMusic/fusion.css'/>");
     response.write("<script type='text/javascript' src='/fusionMusic/fusion.js'></script>");
 
-     response.write("</head>");
+    response.write("</head>");
 
-     response.write("<body>");
+    response.write("<body>");
 
 
 
@@ -127,7 +129,7 @@ void FusionMusicController::service(HttpRequest &request, HttpResponse &response
 
 
 
-    hexDecoderCheck();
+   hexDecoderCheck();
 
 
 }
@@ -495,13 +497,6 @@ void FusionMusicController::printTcpPacket(QByteArray &input)
 
 
 
-
-
-
-
-
-
-
 void FusionMusicController::hexDecoderCheck()
 {
 
@@ -542,9 +537,32 @@ void FusionMusicController::hexDecoderCheck()
         return;
     }
 
-    bool ok;
 
-//    uint length =
+    // isolate message size info from packet, accounting for little-endian format
+    QString hexLength;
+    hexLength = QString::fromLatin1(qCommand.toHex().mid(2, 4));
+    QString temp = hexLength.mid(2, 2);
+    temp.append(hexLength.mid(0,2));
+    hexLength = temp;
+    qDebug() << "hexLength is: " << hexLength << endl;
+    qDebug() << "temp is: " << temp << endl;
+    bool ok;
+    int size = hexLength.toInt(&ok, 10);
+
+    //qDebug() << "size is: " << size << endl;
+
+    if (size != (qCommand.size() - 4)) {
+        qDebug() << "WARNING. SIZE BYTES DO NOT REPRESENT ACTUAL SIZE." << endl;
+        qDebug() << "SIZE BYTES YIELD SIZE OF: " << size << endl;
+        qDebug() << "ACTUAL SIZE FROM .size(): " << (qCommand.size() - 4) << endl;
+    }
+
+
+    QString hexCommand;
+    //hexCommand = QString::fromLatin1(qCommand.toHex().mid());
+
+
+
 
 
 }

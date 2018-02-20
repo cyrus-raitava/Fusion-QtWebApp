@@ -10,6 +10,7 @@
 #include "testcontroller.h"
 #include "htmltestcontroller.h"
 #include "fusioncontroller.h"
+#include "fusionmusiccontroller.h"
 
 using namespace stefanfrings;
 
@@ -72,4 +73,6 @@ int main(int argc, char *argv[])
     new HttpListener(listenerSettings,new RequestMapper(&app),&app);
 
     return app.exec();
+
+
 }

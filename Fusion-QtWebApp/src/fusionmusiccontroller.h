@@ -20,11 +20,16 @@ public:
 
     void byteMerger(QByteArray &command, QByteArray &message);
 
+
+    QByteArray fapiGetState();
+
     QByteArray commandEncode(QByteArray &command);
     QByteArray fapiSetSourceType(QByteArray &sourceID);
     QByteArray fapiSetDeviceName(QByteArray &deviceName);
     QByteArray fapiSetPowerState(QByteArray &state);
     QByteArray fapiSetMediaState(QByteArray &songState);
+
+
 
     QByteArray sizeHexBytes(int size);
 
