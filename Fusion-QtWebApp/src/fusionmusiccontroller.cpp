@@ -532,10 +532,10 @@ void FusionMusicController::hexDecoderCheck()
 
 
     // validate header byte
-    if (qCommand[0] != 0xff) {
-        qDebug() << "INVALID COMMAND: HEADER BYTE WRONG" << endl;
-        return;
-    }
+//    if (qCommand[0] != 0xff) {
+//        qDebug() << "INVALID COMMAND: HEADER BYTE WRONG" << endl;
+//        return;
+//    }
 
 
     // isolate message size info from packet, accounting for little-endian format

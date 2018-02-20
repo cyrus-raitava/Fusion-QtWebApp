@@ -91,6 +91,9 @@ function powerChange()
 
   if (document.getElementById('switch').checked)
   {
+
+      document.getElementById('html').style = '-webkit-filter: grayscale(0%); -moz-filter: grayscale(0%); filter: grayscale(0%);';
+
       document.getElementById('onLabel').innerHTML = 'ON';
       document.getElementById('onLabel').style.color = '#03c46a';
 
@@ -104,8 +107,12 @@ function powerChange()
       document.getElementById('choiceBox').disabled = false;
 
 
+
+
       // TESTING PURPOSES console.log('SWITCH IS NOW ON');
   } else {
+
+      document.getElementById('html').style = '-webkit-filter: grayscale(100%); -moz-filter: grayscale(100%); filter: grayscale(100%);';
 
       document.getElementById('onLabel').innerHTML = 'OFF';
       document.getElementById('onLabel').style.color = '#ba3728';
@@ -119,14 +126,13 @@ function powerChange()
       document.getElementById('playPauseButton').disabled = true;
       document.getElementById('choiceBox').disabled = true;
 
-
-
-
-
-
       // TESTING PURPOSES console.log('SWITCH IS NOW OFF');
 
       powerState = 'OFF';
+
+
+
+
   }
 
 
