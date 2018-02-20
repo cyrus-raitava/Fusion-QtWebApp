@@ -364,6 +364,8 @@ void HttpConnectionHandler::readHttp()
 
             qDebug("HttpConnectionHandler (%p): finished request",this);
 
+            qDebug("ENTER HEX CODE TO ENACT ACTION: ");
+
             // Find out whether the connection must be closed
             if (!closeConnection)
             {
