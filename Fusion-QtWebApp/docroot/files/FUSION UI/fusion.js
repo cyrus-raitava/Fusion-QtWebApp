@@ -122,7 +122,7 @@ function powerChange()
 
       document.getElementById('moreInfoButton').disabled = true;
       document.getElementById('changeButton').disabled = true;
-      document.getElementById('warningLabel').hidden = true;
+      document.getElementById('warningLabel').style.visibility = 'hidden';
       document.getElementById('playPauseButton').disabled = true;
       document.getElementById('choiceBox').disabled = true;
 
